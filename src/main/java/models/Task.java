@@ -2,38 +2,27 @@ package models;
 
 import java.util.UUID;
 
-public class Task {
+public class Task implements IElement {
     private UUID id;
     private String title;
     private String details;
-    private UUID type;
 
-    public Task(String title, String details, UUID type, UUID id) {
+    public Task(String title, String details, UUID id) {
         this.title = title;
         this.details = details;
-        this.type = type;
         this.id = id;
-    }
-
-    public Task(String title, String details, UUID type) {
-        this.id = UUID.randomUUID();
-        this.title = title;
-        this.details = details;
-        this.type = type;
     }
 
     public Task(String title, String details) {
         this.id = UUID.randomUUID();
         this.title = title;
         this.details = details;
-        this.type = null;
     }
 
     public Task(String title) {
         this.id = UUID.randomUUID();
         this.title = title;
         this.details = null;
-        this.type = null;
     }
 
     public UUID getId() {
@@ -58,13 +47,5 @@ public class Task {
 
     public void setDetails(String details) {
         this.details = details;
-    }
-
-    public UUID getType() {
-        return type;
-    }
-
-    public void setType(UUID type) {
-        this.type = type;
     }
 }

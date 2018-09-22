@@ -3,7 +3,7 @@ package models;
 import java.util.Date;
 import java.util.UUID;
 
-public class TimeEntry {
+public class TimeEntry implements IElement {
     private UUID id;
     private UUID userId;
     private UUID taskId;
@@ -28,6 +28,11 @@ public class TimeEntry {
         this.start = start;
         this.end = end;
         this.userId = userId;
+    }
+
+    public TimeEntry(UUID taskId) {
+        this.id = UUID.randomUUID();
+        this.taskId = taskId;
     }
     
     public UUID getId() {

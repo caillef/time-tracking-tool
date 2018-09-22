@@ -2,7 +2,7 @@ package models;
 
 import java.util.UUID;
 
-public class User {
+public class User implements IElement {
     private String login;
     private String password;
     private UUID id;
@@ -42,11 +42,11 @@ public class User {
         this.password = password;
     }
 
-    public UUID getID() {
+    public UUID getId() {
         return id;
     }
 
-    public void setID(UUID id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

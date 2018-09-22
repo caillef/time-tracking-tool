@@ -1,12 +1,16 @@
+package views;
+
+import controllers.EntriesManager;
+import controllers.TasksManager;
+
 import javax.swing.*;
 import java.awt.*;
 
-import static javax.swing.SwingConstants.CENTER;
 import static javax.swing.SwingConstants.HORIZONTAL;
-import static javax.swing.SwingConstants.VERTICAL;
 
 public class Gui {
-    private static JFrame lastFrame = null;
+    private TasksManager tasksManager;
+    private EntriesManager entriesManager;
 
     public static void main(String[] args) {
         new Gui();
@@ -14,6 +18,8 @@ public class Gui {
 
     public Gui() {
         SwingUtilities.invokeLater(this::showEntries);
+        tasksManager = new TasksManager();
+        entriesManager = new EntriesManager();
     }
 
     private void showEntries() {
@@ -31,7 +37,7 @@ public class Gui {
         c.gridy = 0;
         frame.add(label, c);
 
-        try {
+/*        try {
             String categories[] = { "Household", "Office", "Extended Family",
                 "Company (US)", "Company (World)", "Team", "Will",
                 "Birthday Card List", "High School", "Country", "Continent",
@@ -45,7 +51,7 @@ public class Gui {
             frame.add(scrollableList,c);
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
         frame.pack();
         frame.setVisible(true);
