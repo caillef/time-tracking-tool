@@ -26,7 +26,7 @@ public class Gui {
     private void setupWindow() {
         frame = new JFrame("Time Tracking Tool");
         frame.setLayout(new java.awt.GridLayout(0, 1));
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setResizable(false);
 
         JLabel label = new JLabel("History");
