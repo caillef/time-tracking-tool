@@ -20,3 +20,5 @@ Choose the starting time and the ending time and add your new entry.
 ![Updated list](images/task3.png)
 
 Whenever you are ending an activity, remember to add your entry so that you can analyze how you spend your time.
+
+Each activity got a specific color so that the user can easily distinguished the same activity in the list.
