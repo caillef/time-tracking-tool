@@ -8,6 +8,7 @@ import models.TimeEntry;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
+import java.util.Date;
 
 public class Gui {
     private final DatabaseManager db;
@@ -21,6 +22,16 @@ public class Gui {
         db.setTasksManager(tasksManager);
         this.entriesManager = new EntriesManager(db);
         SwingUtilities.invokeLater(this::setupWindow);
+        Date start_date = new Date();
+        Date end_date = new Date();
+        start_date.setTime(0);
+        try {
+            entriesManager.getGlobalStatistics(start_date, end_date);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void setupWindow() {

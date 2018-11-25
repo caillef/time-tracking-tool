@@ -42,6 +42,8 @@ public class DatabaseManager {
                     break;
             }
             stmt.executeUpdate(strSelect);
+        } catch(SQLException se) {
+            se.printStackTrace();
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -64,6 +66,8 @@ public class DatabaseManager {
                     break;
             }
             stmt.executeUpdate(strSelect);
+        } catch(SQLException se) {
+            se.printStackTrace();
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -86,6 +90,8 @@ public class DatabaseManager {
                     break;
             }
             stmt.executeUpdate(strSelect);
+        } catch(SQLException se) {
+            se.printStackTrace();
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -96,6 +102,8 @@ public class DatabaseManager {
             Statement stmt = db.createStatement();
             String strSelect = String.format("DELETE FROM %s WHERE id='%s'", (item.getClass().getSimpleName().equals("Task") ? "tasks" : "timeentries"), item.getId());
             stmt.executeUpdate(strSelect);
+        } catch(SQLException se) {
+            se.printStackTrace();
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -110,6 +118,8 @@ public class DatabaseManager {
             while (rset.next()) {
                 tasks.add(new Task(rset.getString("title"), rset.getString("details"), UUID.fromString(rset.getString("id"))));
             }
+        } catch(SQLException se) {
+            se.printStackTrace();
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -125,6 +135,8 @@ public class DatabaseManager {
             while (rset.next()) {
                 task = Optional.of(new Task(rset.getString("title"), rset.getString("details"), UUID.fromString(rset.getString("id"))));
             }
+        } catch(SQLException se) {
+            se.printStackTrace();
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -140,6 +152,8 @@ public class DatabaseManager {
             while (rset.next()) {
                 entries.add(new TimeEntry(this.tasksManager, UUID.fromString(rset.getString("task_id")), new Date(rset.getLong("start_date")), new Date(rset.getLong("end_date")), UUID.fromString(rset.getString("id"))));
             }
+        } catch(SQLException se) {
+            se.printStackTrace();
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -155,6 +169,8 @@ public class DatabaseManager {
             while (rset.next()) {
                 entry = Optional.of(new TimeEntry(this.tasksManager, UUID.fromString(rset.getString("task_id")), new Date(rset.getLong("start_date")), new Date(rset.getLong("end_date")), UUID.fromString(rset.getString("id"))));
             }
+        } catch(SQLException se) {
+            se.printStackTrace();
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -169,6 +185,8 @@ public class DatabaseManager {
             AddItem(new Task("Homework", "Laurea University"));
             AddItem(new Task("Work", "AILiveSim"));
             AddItem(new Task("Playing music", "Guitar or drums"));
+        } catch(SQLException se) {
+            se.printStackTrace();
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -179,6 +197,8 @@ public class DatabaseManager {
             Statement stmt = db.createStatement();
             String strSelect = String.format("DELETE FROM timeentries");
             stmt.executeUpdate(strSelect);
+        } catch(SQLException se) {
+            se.printStackTrace();
         } catch(Exception e) {
             e.printStackTrace();
         }
