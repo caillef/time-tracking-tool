@@ -7,10 +7,16 @@ This tool allows you to track the time you spend on different activities. You wi
 
 When you start the software, you can add a new entry by pressing the Add button.
 
-[](images/task1.png)
+![Entries list](images/task1.png)
 
 The next step is to select a specific task. This can be one that is already in the database or you can add a new task that will be stored in the database.
 
+![Add a new entry](images/task2.png)
+
+![Add a new task](images/task4.png)
+
 Choose the starting time and the ending time and add your new entry.
+
+![Updated list](images/task3.png)
 
 Whenever you are ending an activity, remember to add your entry so that you can analyze how you spend your time.
