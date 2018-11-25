@@ -48,4 +48,8 @@ public class Task implements IElement {
     public void setDetails(String details) {
         this.details = details;
     }
+
+    public String toString() {
+        return getTitle() + " - " + getDetails();
+    }
 }

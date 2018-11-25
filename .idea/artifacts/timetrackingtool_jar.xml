@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="timetrackingtool:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/timetrackingtool_jar</output-path>
+    <root id="archive" name="timetrackingtool.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="extracted-dir" path="$PROJECT_DIR$/postgresql-42.2.5.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

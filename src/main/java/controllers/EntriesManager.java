@@ -3,12 +3,21 @@ package controllers;
 import models.TimeEntry;
 import models.TimeEntryAggregator;
 
+import java.util.Date;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class EntriesManager extends AListManager<TimeEntry> {
+    private DatabaseManager db;
+
+    public EntriesManager(DatabaseManager db) {
+        super(db);
+        this.db = db;
+    }
+
     public EntriesManager() {
         super();
+        this.db = null;
     }
 
     public void changeTask(UUID entryId, UUID taskId) {
@@ -20,6 +29,8 @@ public class EntriesManager extends AListManager<TimeEntry> {
         // if it exists, change the taskID
         if (timeEntry != null) {
             timeEntry.setTaskId(taskId);
+            if (db != null)
+                db.UpdateItem(timeEntry, null, taskId);
         }
     }
 
@@ -32,7 +43,7 @@ public class EntriesManager extends AListManager<TimeEntry> {
             TimeEntryAggregator optTask = globalList.stream()
                     .filter(t2 -> t1 != t2 && t1.getTaskId() == t2.getTaskId()).findFirst().orElse(null);
             if (optTask == null) {
-                optTask = new TimeEntryAggregator(t1.getTaskId());
+                optTask = new TimeEntryAggregator(null, t1.getTaskId());
                 globalList.add(optTask);
             }
             optTask.addNbHours(t1.getEnd().getTime() - t1.getStart().getTime());
@@ -66,5 +77,30 @@ public class EntriesManager extends AListManager<TimeEntry> {
                     return t;
                 })
                 .collect(Collectors.toList()));
+    }
+
+
+    @Override
+    public TimeEntry getById(UUID id) {
+        if (db == null)
+            return super.getById(id);
+        else
+            return db.GetEntry(id).orElse(null);
+    }
+
+    @Override
+    public ArrayList<TimeEntry> getList() {
+        if (db == null)
+            return super.getList();
+        else
+            return db.GetEntries();
+    }
+
+    @Override
+    public void clear() {
+        if (db == null)
+            super.clear();
+        else
+            db.ClearEntries();
     }
 }

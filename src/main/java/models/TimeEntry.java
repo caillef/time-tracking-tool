@@ -1,54 +1,46 @@
 package models;
 
+import controllers.TasksManager;
+
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 
 public class TimeEntry implements IElement {
-    private UUID id;
-    private UUID userId;
-    private UUID taskId;
+    protected TasksManager tasksManager;
+    protected UUID id;
+    protected UUID taskId;
     private Date start;
     private Date end;
 
-    public TimeEntry() {
-
-    }
-
-    public TimeEntry(UUID taskId, Date start, Date end, UUID userId, UUID id) {
+    public TimeEntry(TasksManager tasksManager, UUID taskId, Date start, Date end, UUID id) {
+        this.tasksManager = tasksManager;
         this.id = id;
         this.taskId = taskId;
         this.start = start;
         this.end = end;
-        this.userId = userId;
     }
 
-    public TimeEntry(UUID taskId, Date start, Date end, UUID userId) {
-        this.id = UUID.randomUUID();
+    public TimeEntry(TasksManager tasksManager, UUID taskId, Date start, Date end) {
+        this.tasksManager = tasksManager;
         this.taskId = taskId;
         this.start = start;
         this.end = end;
-        this.userId = userId;
+        this.id = UUID.randomUUID();
     }
 
-    public TimeEntry(UUID taskId) {
+    public TimeEntry(TasksManager tasksManager, UUID taskId) {
+        this.tasksManager = tasksManager;
         this.id = UUID.randomUUID();
         this.taskId = taskId;
     }
-    
+
     public UUID getId() {
         return id;
     }
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public void setUserId(UUID userId) {
-        this.userId = userId;
     }
 
     public UUID getTaskId() {
@@ -73,5 +65,14 @@ public class TimeEntry implements IElement {
 
     public void setEnd(Date end) {
         this.end = end;
+    }
+
+    public String toString() {
+        Optional<Task> optTask = tasksManager.getList().stream().filter(t -> t.getId().equals(this.taskId)).findFirst();
+        Task task = optTask.orElse(null);
+        if (task != null) {
+            return task.getTitle() + " " + start + " " + ((end.getTime() - start.getTime()) / 3600000) + "h";
+        }
+        return "Task deleted";
     }
 }

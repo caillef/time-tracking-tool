@@ -1,59 +1,71 @@
 package views;
 
+import controllers.DatabaseManager;
 import controllers.EntriesManager;
 import controllers.TasksManager;
+import models.TimeEntry;
 
 import javax.swing.*;
 import java.awt.*;
-
-import static javax.swing.SwingConstants.HORIZONTAL;
+import java.awt.event.WindowEvent;
 
 public class Gui {
-    private TasksManager tasksManager;
-    private EntriesManager entriesManager;
-
-    public static void main(String[] args) {
-        new Gui();
-    }
+    private final DatabaseManager db;
+    private final TasksManager tasksManager;
+    private final EntriesManager entriesManager;
+    private JFrame frame;
 
     public Gui() {
-        SwingUtilities.invokeLater(this::showEntries);
-        tasksManager = new TasksManager();
-        entriesManager = new EntriesManager();
+        this.db = new DatabaseManager();
+        this.tasksManager = new TasksManager(db);
+        db.setTasksManager(tasksManager);
+        this.entriesManager = new EntriesManager(db);
+        SwingUtilities.invokeLater(this::setupWindow);
+    }
+
+    private void setupWindow() {
+        frame = new JFrame("Time Tracking Tool");
+        frame.setLayout(new java.awt.GridLayout(0, 1));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+
+        JLabel label = new JLabel("History");
+        label.setBorder(BorderFactory.createEmptyBorder(0, 150, 0, 100));
+        label.setForeground(new Color(255,255,255));
+        JPanel pane = new JPanel();
+        pane.setLayout(new BoxLayout(pane, BoxLayout.LINE_AXIS));
+        pane.setBorder(BorderFactory.createEmptyBorder(10, 10, 5, 10));
+        JButton addEntryButton = new JButton("+");
+        addEntryButton.addActionListener(new FrameAddEntry(this));
+        pane.add(label);
+        pane.add(addEntryButton);
+        pane.setBackground(new Color(100,100,100));
+        frame.add(pane);
+        showEntries();
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
     private void showEntries() {
-        JFrame frame = new JFrame("Time Tracking Tool");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.entriesManager.getList().sort((a,b) -> (int) (a.getStart().getTime() - b.getStart().getTime() + (a.getEnd().getTime() - b.getEnd().getTime())));
+        for (int i = 0; i < this.entriesManager.getList().size(); i++) {
+            TimeEntry e = this.entriesManager.getList().get(i);
+            String taskName = tasksManager.getById(e.getTaskId()).getTitle();
+            GuiFactory.AddEntry(frame, this, e, taskName, entriesManager, i);
+        }
+    }
 
-        GridBagLayout layout = new GridBagLayout();
-        frame.setLayout(layout);
+    public TasksManager getTasksManager() {
+        return tasksManager;
+    }
 
-        GridBagConstraints c = new GridBagConstraints();
+    public EntriesManager getEntriesManager() {
+        return entriesManager;
+    }
 
-        JLabel label = new JLabel("This week");
-        c.anchor = GridBagConstraints.PAGE_START;
-        c.gridx = 1;
-        c.gridy = 0;
-        frame.add(label, c);
-
-/*        try {
-            String categories[] = { "Household", "Office", "Extended Family",
-                "Company (US)", "Company (World)", "Team", "Will",
-                "Birthday Card List", "High School", "Country", "Continent",
-                "Planet" };
-            JList list = new JList(categories);
-            JScrollPane scrollableList = new JScrollPane(list);
-            c.gridx = 0;
-            c.gridy = 1;
-            c.fill = HORIZONTAL;
-            c.gridwidth = 3;
-            frame.add(scrollableList,c);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-
-        frame.pack();
-        frame.setVisible(true);
+    public void UpdateEntryList() {
+        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+        SwingUtilities.invokeLater(this::setupWindow);
     }
 }

@@ -1,7 +1,6 @@
 package controllers;
 
 import models.Task;
-import models.TaskType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,6 +21,7 @@ public class TasksManagerTest {
 
     @Test
     public void addItem() {
+        manager.clear();
         assertEquals(0, manager.getList().size());
         manager.addItem(task);
         assertEquals(1, manager.getList().size());
@@ -30,6 +30,7 @@ public class TasksManagerTest {
 
     @Test
     public void deleteItem() {
+        manager.clear();
         assertEquals(0, manager.getList().size());
         manager.addItem(task);
         UUID id = task.getId();
@@ -39,23 +40,24 @@ public class TasksManagerTest {
         manager.addItem(task);
 
         assertEquals(2, manager.getList().size());
-        manager.deleteItem(task.getId());
+        manager.deleteItem(task);
 
         assertEquals(1, manager.getList().size());
         assertEquals(id, manager.getList().get(0).getId());
-        manager.deleteItem(id);
+        manager.deleteItem(new Task(null, null, id));
         assertEquals(0, manager.getList().size());
     }
 
 
     @Test
     public void renameTask() {
+        manager.clear();
         manager.addItem(task);
         assertEquals(1, manager.getList().size());
         assertEquals(task.getId(), manager.getList().get(0).getId());
         manager.renameTask(task.getId(), "Playing");
         assertEquals("Playing", manager.getList().get(0).getTitle());
-        manager.deleteItem(task.getId());
+        manager.deleteItem(task);
         assertEquals(0, manager.getList().size());
     }
 }
